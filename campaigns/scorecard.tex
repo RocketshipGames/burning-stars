@@ -1,0 +1,124 @@
+%%-- For cards
+\pgfmathsetmacro{\scorecardroundingradius}{2mm}
+\pgfmathsetmacro{\scorestriproundingradius}{1mm}
+\pgfmathsetmacro{\scoreruleheight}{0.1}
+\pgfmathsetmacro{\scorestripwidth}{1.1}
+\pgfmathsetmacro{\scorestrippadding}{0.1}
+\pgfmathsetmacro{\scoretextpadding}{0.3}
+\newcommand{\scorestripcolor}{black}
+%%-------
+
+\pgfmathsetmacro{\scorecardwidth}{12}
+\pgfmathsetmacro{\scorecardheight}{19}
+
+\newcommand{\scorestripfontsize}{\huge}
+\newcommand{\scorecaptionfontsize}{\LARGE}
+\newcommand{\scoretextfontsize}{\large}
+
+\newcommand{\scorestriptext}%
+  {SCORECARD\hspace{0.5em}\rotatebox[origin=c]{-90}{\includegraphics[width=0.6cm]{icon-skull}}}
+
+\newcommand{\checkbox}{\raisebox{-1pt}{\fbox{\hbox to 1em{\vbox to 1em{}}}}}
+
+\newcommand{\letterbox}{\fbox{\hbox to 2em{\vbox to 32pt{}}}}
+
+\newcommand{\scorebox}{\fbox{\hbox to 32pt{\vbox to 32pt{}}}}
+
+\newcommand{\namebox}[1]{\fbox{\hbox to 92pt{\vbox to 64pt{\vfill\it #1}}}}
+
+%%----------------------------------------------------------------------
+%%----------------------------------------------------------------------
+\newcommand{\drawscorecard}{%
+\begin{tikzpicture}%
+  \clip (-0.05, -0.05) rectangle (\scorecardwidth+.05, \scorecardheight+.05);
+
+  %%-- Draw the card back and outline
+  \draw[rounded corners=\scorecardroundingradius,fill=white,draw=none] (0,0)
+    rectangle (\scorecardwidth,\scorecardheight);
+  \node[above left] at (\scorecardwidth+0.1, -0.1)
+    {\includegraphics[width=3.5in]{background-skull}};
+  \draw[rounded corners=\scorecardroundingradius] (0,0) rectangle
+    (\scorecardwidth,\scorecardheight);
+
+  %%-- Draw the side strip
+  \fill[\scorestripcolor,rounded corners=\scorestriproundingradius]
+    (\scorestrippadding,\scorestrippadding) rectangle
+    (\scorestrippadding+\scorestripwidth,\scorecardheight-\scorestrippadding)
+    node[rotate=90,above left,white,font=\scorestripfontsize\fontfamily{ptm}\selectfont] {\raisebox{0pt}[15pt][3pt]{\vbox to -18pt{}} \scorestriptext};
+
+  %%-- Draw the player info lines
+    \node[text width=(\scorecardwidth-\scorestrippadding-\scorestripwidth-2*\scoretextpadding)*1cm,
+          below right,inner sep=0] at
+          (\scorestrippadding+\scorestripwidth+\scoretextpadding,\scorecardheight-\scoretextpadding)
+    {\scoretextfontsize%
+      \begin{minipage}[b]{1.0\linewidth}
+
+        %\centerline{\Huge\bf\sc\fontfamily{ptm}\selectfont Scorecard}
+
+\bigskip
+\makebox[\textwidth]{\textbf{Your Name:} \enspace\hrulefill}
+\scorematrix{%
+\parbox{0.75in}{Primary:} 9 VP max\\
+\parbox{0.75in}{Secondary:} 6 VP max\\
+\parbox{0.75in}{Tertiary:} 5 VP max
+}
+
+\vspace{-4pt}
+\makebox[\textwidth]{\textbf{Your Opponent:} \enspace\hrulefill}
+\scorematrix{Match total is sum of both games; difference
+of less than 4 points is a draw.}
+
+\vspace{-12pt}
+\small
+My opponent was (check any that apply; docking from~7pts):\\
+\precheck Openly hostile or rude \hfill [-2]\\
+\precheck Overly competitive in army list or attitude \hfill [-2]\\
+\precheck Unfriendly or disengaged \hfill [-1]\\
+\precheck Sloppy with measuring and moving \hfill [-1]\\
+\precheck Unreasonably late or played unacceptably slow \hfill [-1]
+
+\vspace{4pt}
+
+Much of my opponent's army (check any that apply;~3pts):\\
+\precheck Was not painted (i.e., $<$ 3 colors) \hfill [-1]\\
+\precheck Had unfinished bases \hfill [-1]\\
+\precheck Was not even primed nicely \hfill [-1]
+      \end{minipage}
+    };
+\end{tikzpicture}
+}
+
+\newcommand{\precheck}{\smallskip\hspace{2em}\raisebox{-2pt}{\checkbox}~ }
+
+\newcommand{\scorecard}{%
+\drawscorecard
+}
+
+\newcommand{\scorematrix}[1]{%
+\bigskip\centerline{%
+\renewcommand{\baselinestretch}{0.2}
+\setlength\tabcolsep{4pt}
+\begin{tabular}{r C{0.5in} c C{0.5in} c C{0.5in} c C{0.5in}}
+ &
+\parbox{32pt}{\centerline{\small\textbf{\textit{Primary}}}} & &
+\parbox{32pt}{\centerline{\small\textbf{\textit{Secondary}}}} & &
+\parbox{32pt}{\centerline{\small\textbf{\textit{Tertiary}}}} & &
+\parbox{32pt}{\centerline{\small\textbf{\textit{Total}}}}
+\\
+\textbf{Game 1:}  &
+\scorebox & \bf + &
+\scorebox & \bf + &
+\scorebox & \bf = &
+\scorebox\\
+\textbf{Game 2:}  &
+\scorebox & \bf + &
+\scorebox & \bf + &
+\scorebox & \bf = &
+\scorebox\\
+\multicolumn{3}{l}{\multirow{2}{*}{\vbox to 0pt{\hbox to 1.5in{\parbox{1.8in}{\small #1}}}}} &
+& & & & ------ \\
+\multicolumn{3}{l}{} &
+\multicolumn{3}{r}{\bf Match Total} & {\bf $\Rightarrow$} &
+\scorebox\\
+\end{tabular}}
+}

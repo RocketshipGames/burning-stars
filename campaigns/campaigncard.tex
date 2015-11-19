@@ -1,0 +1,93 @@
+%%-- For cards
+\pgfmathsetmacro{\campaigncardroundingradius}{2mm}
+\pgfmathsetmacro{\campaignstriproundingradius}{1mm}
+\pgfmathsetmacro{\campaignruleheight}{0.1}
+\pgfmathsetmacro{\campaignstripwidth}{1.1}
+\pgfmathsetmacro{\campaignstrippadding}{0.1}
+\pgfmathsetmacro{\campaigntextpadding}{0.3}
+\newcommand{\campaignstripcolor}{black}
+%%-------
+
+\newcommand{\campaigntitle}{CAMPAIGN}
+\newcommand{\campaignstory}{Your must accomplish your quest!}
+\newcommand{\campaignsecondaries}{Any}%
+
+\pgfmathsetmacro{\campaigncardwidth}{12}
+\pgfmathsetmacro{\campaigncardheight}{19}
+
+\newcommand{\campaignstripfontsize}{\huge}
+\newcommand{\campaigncaptionfontsize}{\LARGE}
+\newcommand{\campaigntextfontsize}{\large}
+
+\newcommand{\campaignstriptext}%
+  {CAMPAIGN\hspace{0.5em}\rotatebox[origin=c]{-90}{\includegraphics[width=0.6cm]{icon-skull}}}
+
+%%----------------------------------------------------------------------
+%%----------------------------------------------------------------------
+\newcommand{\drawcampaigncard}{%
+\begin{tikzpicture}%
+  \clip (-0.05, -0.05) rectangle (\campaigncardwidth+.05, \campaigncardheight+.05);
+
+  %%-- Draw the card back and outline
+  \draw[rounded corners=\campaigncardroundingradius,fill=white,draw=none] (0,0)
+    rectangle (\campaigncardwidth,\campaigncardheight);
+  \node[above left] at (\campaigncardwidth+0.1, -0.1)
+    {\includegraphics[width=3.5in]{background-skull}};
+  \draw[rounded corners=\campaigncardroundingradius] (0,0) rectangle
+    (\campaigncardwidth,\campaigncardheight);
+
+  %%-- Draw the side strip
+  \fill[\campaignstripcolor,rounded corners=\campaignstriproundingradius]
+    (\campaignstrippadding,\campaignstrippadding) rectangle
+    (\campaignstrippadding+\campaignstripwidth,\campaigncardheight-\campaignstrippadding)
+    node[rotate=90,above left,white,font=\campaignstripfontsize\fontfamily{ptm}\selectfont] {\raisebox{0pt}[15pt][3pt]{\vbox to -18pt{}} \campaignstriptext};
+
+  %%-- Draw the player info lines
+    \node[text width=(\campaigncardwidth-\campaignstrippadding-\campaignstripwidth-2*\campaigntextpadding)*1cm,
+          below right,inner sep=0] at
+          (\campaignstrippadding+\campaignstripwidth+\campaigntextpadding,\campaigncardheight-\campaigntextpadding)
+    {\campaigntextfontsize%
+      \begin{minipage}[b]{1.0\linewidth}\centering
+
+        {\Huge\bf\sc\fontfamily{ptm}\selectfont\campaigntitle}
+
+        \bigskip\it
+        \campaignstory
+      \end{minipage}
+
+      %\bigskip
+      %\centerline{\Large\sc\fontfamily{ptm}\selectfont --- Campaign ---}
+
+      \bigskip\medskip
+      \noindent\begin{minipage}{\linewidth}%
+        % \smallskip\centering\campaigntextfontsize%
+        {\bf Secondary Objectives.} Select
+        from the following mission options in the first two rounds:
+        \campaignsecondaries
+      \end{minipage}
+
+      %\bigskip
+      %\centerline{\Large\sc\fontfamily{ptm}\selectfont --- Cataclysm ---}
+    };
+
+    % \node[text width=(\campaigncardwidth-\campaignstrippadding-\campaignstripwidth-2*\campaigntextpadding)*1cm,
+    %       above right,inner sep=0] at
+    %       (\campaignstrippadding+\campaignstripwidth+\campaigntextpadding,\campaignstrippadding)
+    % {\campaigntextfontsize%
+%      \begin{tabular}{@{}ll}
+%        \textbf{Your Name:} &  \underline{\vbox to 18pt{}\hspace{2.75in}}\\
+        %\textbf{Squad:} &  \underline{\vbox to 18pt{}\hspace{8.25cm}}\\
+        %\textbf{Faction:} & \underline{\vbox to 18pt{}\hspace{8.25cm}}\\
+        %\textbf{Alliance:} & \underline{\vbox to 18pt{}\hspace{8.25cm}}\\
+%      \end{tabular}
+%    };
+\end{tikzpicture}
+}
+
+
+\newcommand{\campaigncard}[3]{%
+\renewcommand{\campaigntitle}{#1}%
+\renewcommand{\campaignstory}{#2}%
+\renewcommand{\campaignsecondaries}{#3}%
+\drawcampaigncard
+}

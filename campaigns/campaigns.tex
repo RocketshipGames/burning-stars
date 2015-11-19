@@ -1,0 +1,81 @@
+
+\documentclass{40k}
+
+\usepackage{enumitem}
+\usepackage{pdflscape}
+\usepackage{multirow}
+
+\input{campaigncard.tex}
+\input{../missions/mission-list.tex}
+
+\newcommand{\headtakers}{%
+\campaigncard{Headtakers}%
+{A senior enemy commander has just been sighted in-theater.  Find out
+  why they're here, hunt them down, and eliminate them.}%
+{
+  \begin{itemize}[leftmargin=1em]
+    \interrogation
+    \seekanddestroy
+    \meatgrinder
+  \end{itemize}
+}%
+}
+
+\newcommand{\destructors}{%
+\campaigncard{Destructors}%
+{Word just came down: A nearby enemy installation needs to be
+  destroyed immediately.  Break through the lines and turn it to
+  rubble.}%
+{
+  \begin{itemize}[leftmargin=1em]
+    \frontline
+    \hullbreaker
+%    \breaktheirback
+    \overrun
+  \end{itemize}
+}%
+}
+
+\newcommand{\roughriders}{%
+\campaigncard{Roughriders}%
+{Something's coming.  Command's vague on what, but your patrol's
+  ordered to get into position for rapid response in any direction.}%
+{
+  \begin{itemize}[leftmargin=1em]
+    \securepositions
+    \reconnaissance
+    \controlthefield
+  \end{itemize}
+}%
+}
+
+
+\begin{document}
+
+\clearpage
+\squelchbackground
+\begin{landscape}
+\vspace*{-15pt}
+
+\noindent%
+\headtakers
+%%
+\hfill%
+\headtakers
+
+\noindent%
+\destructors
+%%
+\hfill%
+\destructors
+
+\noindent%
+\roughriders
+%%
+\hfill%
+\roughriders
+
+\end{landscape}
+\clearpage
+\restorebackground
+\end{document}
